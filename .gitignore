@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Hacktues9/password_safe.txt
+/Hacktues9/password_safe_key.txt
