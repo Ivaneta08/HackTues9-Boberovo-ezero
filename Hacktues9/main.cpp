@@ -38,10 +38,10 @@ int main() {
 	else
 	{
 		//scanf("%s", master_password);
-		printf("DEBUG : Master password exists\n");
+		printf("Master password exists\n");
 		rewind(fp2);
 		fscanf(fp2, "%s", master_password);
-		printf("Restored password is %s\n", master_password);
+		//printf("Restored password is %s\n", master_password);
 	}
 	fclose(fp2);
 
@@ -104,12 +104,14 @@ int main() {
 						fputc((char)application_name[i] + 10, fp1);
 
 					}
-					fputc((char)':', fp1);
+					fputc((char)':' + 10, fp1);
 
 					printf("Enter the new password:\n");
 					//scanf("%s", password_content);
-
+					
 					cin.getline(password_content, MAX_PASSWORD_LENGTH);
+					num_passwords++;
+					
 					for (int j = 0; j < strlen(password_content); j++)
 					{
 						//while ((ch = getchar()) != EOF && ch != '\n') {
@@ -117,9 +119,8 @@ int main() {
 							//ch = ch + 100;
 							// write character ch in file
 						fputc(password_content[j] + 10, fp1);
-						num_passwords++;
 					}
-					fputs("\n", fp1);
+					fputc((char)'\n' + 10, fp1);
 					printf("END of entering passwords\n");
 				}
 				fclose(fp1);
@@ -130,10 +131,7 @@ int main() {
 				printf("\nList of saved passwords :\n");
 				while ((ch = fgetc(fp1)) != EOF)
 				{
-					if (ch != ':')
-					{
-						ch = ch - 10;
-					}
+					ch = ch - 10;
 					printf("%c", ch);
 				}
 
