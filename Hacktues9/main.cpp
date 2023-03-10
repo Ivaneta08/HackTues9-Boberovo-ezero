@@ -1,8 +1,16 @@
-﻿#include <stdio.h>
+﻿
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "pch.h"
-#include <iostream>
+#include<iostream>
+#include <cmath>
+#include <iomanip>
+#include <map>
+#include <random>
+#include <string>
+#include <cstdlib>
+#include <ctime>
 #include <vector>
 
 using namespace std;
@@ -10,6 +18,24 @@ using namespace std;
 #define MAX_PASSWORDS 10
 #define MAX_PASSWORD_LENGTH 20
 #define MAX_NAME_LENGTH 30
+
+char generate_random_character(const std::string& char_set) {
+	int random_index = rand() % char_set.length();
+	return char_set[random_index];
+}
+
+string generate_password() {
+	std::string password;
+	std::random_device rd;
+	std::uniform_int_distribution<int> dist(0, 25); // Distribution for random lowercase letters
+
+	for (int i = 0; i < 10; i++) {
+		char c = 'a' + dist(rd); // Generate a random lowercase letter
+		password.push_back(c);
+	}
+
+	return password;
+}
 
 int main() {
 	char master_password[MAX_PASSWORD_LENGTH]{};
@@ -22,6 +48,7 @@ int main() {
 	int is_logged_in = 0;
 	int attempts_left = 3;
 	string pass;
+
 
 	FILE* fp1, * fp2;
 	char ch;
@@ -96,7 +123,8 @@ int main() {
 			printf("Choose an option:\n");
 			printf("1. Add password\n");
 			printf("2. Show passwords\n");
-			printf("3. Exit\n");
+			printf("3. Strong password\n");
+			printf("4. Exit\n");
 
 			int choice;
 			scanf("%d", &choice);
@@ -191,7 +219,14 @@ int main() {
 				fclose(fp1);
 				break;
 
-			case (3):
+			case (3): {
+				string str = generate_password();
+
+				printf("%s\n", str.c_str());
+				break;
+			}
+
+			case (4):
 				printf("Exiting.\n");
 				exit(-1);
 				break;
