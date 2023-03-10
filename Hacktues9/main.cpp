@@ -107,8 +107,10 @@ int main() {
 
 					printf("Enter the new password:\n");
 					//scanf("%s", password_content);
-
+					
 					cin.getline(password_content, MAX_PASSWORD_LENGTH);
+					num_passwords++;
+					
 					for (int j = 0; j < strlen(password_content); j++)
 					{
 						//while ((ch = getchar()) != EOF && ch != '\n') {
@@ -116,7 +118,6 @@ int main() {
 							//ch = ch + 100;
 							// write character ch in file
 						fputc(password_content[j] + 10, fp1);
-						num_passwords++;
 					}
 					fputc((char)'\n' + 10, fp1);
 					printf("END of entering passwords\n");
