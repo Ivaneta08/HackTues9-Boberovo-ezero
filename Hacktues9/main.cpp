@@ -37,10 +37,10 @@ int main() {
 	else
 	{
 		//scanf("%s", master_password);
-		printf("DEBUG : Master password exists\n");
+		printf("Master password exists\n");
 		rewind(fp2);
 		fscanf(fp2, "%s", master_password);
-		printf("Restored password is %s\n", master_password);
+		//printf("Restored password is %s\n", master_password);
 	}
 	fclose(fp2);
 
