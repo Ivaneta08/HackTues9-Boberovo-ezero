@@ -1,22 +1,32 @@
-﻿#include <stdio.h>
+﻿/******************************************************************************
+
+							Online C Compiler.
+				Code, Compile, Run and Debug C program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <stdio.h>
 #include <stdlib.h>
 #include <string>
 #include "pch.h"
 #include <iostream>
-
-using namespace std;
 
 #define MAX_PASSWORDS 10
 #define MAX_PASSWORD_LENGTH 20
 #define MAX_NAME_LENGTH 30
 
 int main() {
-    char master_password[MAX_PASSWORD_LENGTH];
-    char passwords[MAX_PASSWORDS][MAX_PASSWORD_LENGTH];
-    char name[MAX_PASSWORDS][MAX_NAME_LENGTH];
-    int num_passwords = 0;
-    int is_logged_in = 0;
-    int attempts_left = 3;
+	char master_password[MAX_PASSWORD_LENGTH];
+	char passwords[MAX_PASSWORDS][MAX_PASSWORD_LENGTH];
+	char name[MAX_PASSWORDS][MAX_NAME_LENGTH];
+	char input_password[MAX_PASSWORD_LENGTH];
+	char application_name[MAX_PASSWORD_LENGTH];
+	char password_content[MAX_PASSWORD_LENGTH];
+	int num_passwords = 0;
+	int is_logged_in = 0;
+	int attempts_left = 3;
+	long size;
 
     printf("Welcome to Password Safe\n");
     printf("Enter the master password: ");
@@ -50,8 +60,8 @@ int main() {
             printf("2. Show password\n");
             printf("3. Exit\n");
 
-            int choice;
-            scanf("%d", &choice);
+			int choice;
+			scanf("%d", &choice);
 
             if (choice == 1) {
                 if (num_passwords == MAX_PASSWORDS) {
@@ -79,28 +89,35 @@ int main() {
 
                 cin.getline(c_name, MAX_NAME_LENGTH);
 
-                for (int i = 0; i < num_passwords; i++)
-                {
-                    if (strcmp(c_name, name[i]) == 0)
-                    {
-                        printf("Password: %s\n", passwords[i]);
-                        flag = 1;
-                    }
-                }
-                if (!flag)
-                {
-                    printf("No such name is found!\n");
-                }
-            }
-            else if (choice == 3) {
-                printf("Exiting.\n");
-                break;
-            }
-            else {
-                printf("Invalid choice!\n");
-            }
-        }
-    }
+			case(2):
+				fp1 = fopen("password_safe.txt", "a+");
+				printf("\nList of saved passwords :\n");
+				while ((ch = fgetc(fp1)) != EOF)
+				{
+					if (ch != ':')
+					{
+						ch = ch - 10;
+					}
+					printf("%c", ch);
+				}
 
-    return 0;
+				printf("\nEnd of file\n");
+				fclose(fp1);
+				break;
+
+			case (3):
+				printf("Exiting.\n");
+				exit(-1);
+				break;
+
+			default:
+				printf("Invalid choice!\n");
+				break;
+			}
+
+		}
+	}
+
+
+	return 0;
 }
