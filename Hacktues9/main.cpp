@@ -1,5 +1,4 @@
-﻿
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "pch.h"
@@ -12,24 +11,26 @@
 #include <cstdlib>
 #include <ctime>
 
-
 using namespace std;
 
 #define MAX_PASSWORDS 10
 #define MAX_PASSWORD_LENGTH 20
 #define MAX_NAME_LENGTH 30
 
-char generate_random_character(const std::string& char_set) {
+char generate_random_character(const std::string& char_set)
+{
 	int random_index = rand() % char_set.length();
 	return char_set[random_index];
 }
 
-string generate_password() {
+string generate_password()
+{
 	std::string password;
 	std::random_device rd;
 	std::uniform_int_distribution<int> dist(0, 25); // Distribution for random lowercase letters
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 10; i++)
+	{
 		char c = 'a' + dist(rd); // Generate a random lowercase letter
 		password.push_back(c);
 	}
@@ -37,17 +38,18 @@ string generate_password() {
 	return password;
 }
 
-int main() {
-	char master_password[MAX_PASSWORD_LENGTH];
-	char passwords[MAX_PASSWORDS][MAX_PASSWORD_LENGTH];
-	char name[MAX_PASSWORDS][MAX_NAME_LENGTH];
-	char input_password[MAX_PASSWORD_LENGTH];
-	char application_name[MAX_PASSWORD_LENGTH];
-	char password_content[MAX_PASSWORD_LENGTH];
+int main()
+{
+	char master_password[MAX_PASSWORD_LENGTH]{};
+	char passwords[MAX_PASSWORDS][MAX_PASSWORD_LENGTH]{};
+	char name[MAX_PASSWORDS][MAX_NAME_LENGTH]{};
+	char input_password[MAX_PASSWORD_LENGTH]{};
+	char application_name[MAX_PASSWORD_LENGTH]{};
+	char password_content[MAX_PASSWORD_LENGTH]{};
 	int num_passwords = 0;
 	int is_logged_in = 0;
 	int attempts_left = 3;
-	long size;
+	string pass;
 
 
 	FILE* fp1, * fp2;
@@ -59,7 +61,19 @@ int main() {
 	{
 		printf("Please create the master password: \n");
 		//scanf("%s", master_password);
-		cin.getline(master_password, MAX_PASSWORD_LENGTH);
+		getline(cin, pass);
+
+		while (pass.size() > MAX_PASSWORD_LENGTH)
+		{
+			printf("Max password length exceeded\nPlease try again: \n");
+			getline(cin, pass);
+		}
+
+		for (int i = 0; i < pass.size(); i++)
+		{
+			master_password[i] = pass[i];
+		}
+
 		fprintf(fp2, "%s", master_password);
 
 	}
@@ -73,12 +87,25 @@ int main() {
 	}
 	fclose(fp2);
 
-	while (1) {
-		if (!is_logged_in) {
-			char input_password[MAX_PASSWORD_LENGTH];
+	while (1)
+	{
+		if (!is_logged_in)
+		{
+			char input_password[MAX_PASSWORD_LENGTH]{};
 			printf("Enter the Master Password: ");
-			//scanf("%s", input_password);
-			cin.getline(input_password, MAX_PASSWORD_LENGTH);
+
+			getline(cin, pass);
+
+			while (pass.size() > MAX_PASSWORD_LENGTH)
+			{
+				printf("Max password length exceeded\nPlease try again: \n");
+				getline(cin, pass);
+			}
+
+			for (int i = 0; i < pass.size(); i++)
+			{
+				input_password[i] = pass[i];
+			}
 
 			if (strcmp(input_password, master_password) == 0)
 			{
@@ -120,15 +147,24 @@ int main() {
 
 					getchar();
 
-					cin.getline(application_name, MAX_PASSWORD_LENGTH);
+					//cin.getline(application_name, MAX_NAME_LENGTH);
 
-					// keep reading the user input from the terminal
-					// till Return (Enter) key is pressed
+					getline(cin, pass);
+
+					while (pass.size() > MAX_NAME_LENGTH)
+					{
+						printf("Max name length exceeded\nPlease try again: \n");
+						getline(cin, pass);
+					}
+
+					for (int i = 0; i < pass.size(); i++)
+					{
+						application_name[i] = pass[i];
+					}
 
 					for (int i = 0; i < strlen(application_name); i++)
-						//while (((ch = getchar()) != EOF) && (ch != '\n')) 
+
 					{
-						// write character ch in file
 
 						fputc((char)application_name[i] + 10, fp1);
 
@@ -137,17 +173,26 @@ int main() {
 
 					printf("Enter the new password:\n");
 					//scanf("%s", password_content);
-					
-					cin.getline(password_content, MAX_PASSWORD_LENGTH);
 					num_passwords++;
-					
+
+					getline(cin, pass);
+
+					while (pass.size() > MAX_PASSWORD_LENGTH)
+					{
+						printf("Max password length exceeded\nPlease try again: \n");
+						getline(cin, pass);
+					}
+
+					for (int i = 0; i < pass.size(); i++)
+					{
+						password_content[i] = pass[i];
+					}
+
 					for (int j = 0; j < strlen(password_content); j++)
 					{
-						//while ((ch = getchar()) != EOF && ch != '\n') {
-							//scanf("%s", passwords[num_passwords]);
-							//ch = ch + 100;
-							// write character ch in file
+
 						fputc(password_content[j] + 10, fp1);
+
 					}
 					fputc((char)'\n' + 10, fp1);
 					printf("END of entering passwords\n");
@@ -168,7 +213,8 @@ int main() {
 				fclose(fp1);
 				break;
 
-			case (3): {
+			case (3):
+			{
 				string str = generate_password();
 
 				printf("%s\n", str.c_str());
@@ -184,10 +230,7 @@ int main() {
 				printf("Invalid choice!\n");
 				break;
 			}
-
 		}
 	}
-
-
 	return 0;
 }
